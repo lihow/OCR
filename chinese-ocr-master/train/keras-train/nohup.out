@@ -1,0 +1,149 @@
+  File "trainbatch.py", line 46
+    print "step:{},loss:{},crrentLoss:{}".format(j,loss,crrentLoss)
+                                        ^
+SyntaxError: invalid syntax
+  File "trainbatch.py", line 46
+    print "step:{},loss:{},crrentLoss:{}".format(j,loss,crrentLoss)
+                                        ^
+SyntaxError: invalid syntax
+/home/lhw/anaconda3/envs/python2/lib/python2.7/site-packages/h5py/__init__.py:36: FutureWarning: Conversion of the second argument of issubdtype from `float` to `np.floating` is deprecated. In future, it will be treated as `np.float64 == np.dtype(float).type`.
+  from ._conv import register_converters as _register_converters
+Using TensorFlow backend.
+____________________________________________________________________________________________________
+Layer (type)                     Output Shape          Param #     Connected to                     
+====================================================================================================
+the_input (InputLayer)           (None, 32, None, 1)   0                                            
+____________________________________________________________________________________________________
+conv1 (Conv2D)                   (None, 32, None, 64)  640         the_input[0][0]                  
+____________________________________________________________________________________________________
+pool1 (MaxPooling2D)             (None, 16, None, 64)  0           conv1[0][0]                      
+____________________________________________________________________________________________________
+conv2 (Conv2D)                   (None, 16, None, 128) 73856       pool1[0][0]                      
+____________________________________________________________________________________________________
+pool2 (MaxPooling2D)             (None, 8, None, 128)  0           conv2[0][0]                      
+____________________________________________________________________________________________________
+conv3 (Conv2D)                   (None, 8, None, 256)  295168      pool2[0][0]                      
+____________________________________________________________________________________________________
+conv4 (Conv2D)                   (None, 8, None, 256)  590080      conv3[0][0]                      
+____________________________________________________________________________________________________
+zero_padding2d_1 (ZeroPadding2D) (None, 8, None, 256)  0           conv4[0][0]                      
+____________________________________________________________________________________________________
+pool3 (MaxPooling2D)             (None, 4, None, 256)  0           zero_padding2d_1[0][0]           
+____________________________________________________________________________________________________
+conv5 (Conv2D)                   (None, 4, None, 512)  1180160     pool3[0][0]                      
+____________________________________________________________________________________________________
+batch_normalization_1 (BatchNorm (None, 4, None, 512)  16          conv5[0][0]                      
+____________________________________________________________________________________________________
+conv6 (Conv2D)                   (None, 4, None, 512)  2359808     batch_normalization_1[0][0]      
+____________________________________________________________________________________________________
+batch_normalization_2 (BatchNorm (None, 4, None, 512)  16          conv6[0][0]                      
+____________________________________________________________________________________________________
+zero_padding2d_2 (ZeroPadding2D) (None, 4, None, 512)  0           batch_normalization_2[0][0]      
+____________________________________________________________________________________________________
+pool4 (MaxPooling2D)             (None, 2, None, 512)  0           zero_padding2d_2[0][0]           
+____________________________________________________________________________________________________
+conv7 (Conv2D)                   (None, 1, None, 512)  1049088     pool4[0][0]                      
+____________________________________________________________________________________________________
+permute (Permute)                (None, None, 1, 512)  0           conv7[0][0]                      
+____________________________________________________________________________________________________
+timedistrib (TimeDistributed)    (None, None, 512)     0           permute[0][0]                    
+____________________________________________________________________________________________________
+blstm1 (Bidirectional)           (None, None, 512)     1181184     timedistrib[0][0]                
+________________________________________________________2018-04-02 08:53:07.036930: W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.1 instructions, but these are available on your machine and could speed up CPU computations.
+2018-04-02 08:53:07.036991: W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.2 instructions, but these are available on your machine and could speed up CPU computations.
+2018-04-02 08:53:07.037001: W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use AVX instructions, but these are available on your machine and could speed up CPU computations.
+2018-04-02 08:53:07.037008: W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use AVX2 instructions, but these are available on your machine and could speed up CPU computations.
+2018-04-02 08:53:07.037015: W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use FMA instructions, but these are available on your machine and could speed up CPU computations.
+2018-04-02 08:53:08.427939: I tensorflow/core/common_runtime/gpu/gpu_device.cc:955] Found device 0 with properties: 
+name: GeForce GTX 1080 Ti
+major: 6 minor: 1 memoryClockRate (GHz) 1.582
+pciBusID 0000:02:00.0
+Total memory: 10.92GiB
+Free memory: 10.76GiB
+2018-04-02 08:53:08.725111: W tensorflow/stream_executor/cuda/cuda_driver.cc:523] A non-primary context 0x56487d277260 exists before initializing the StreamExecutor. We haven't verified StreamExecutor works with that.
+2018-04-02 08:53:08.726215: I tensorflow/core/common_runtime/gpu/gpu_device.cc:955] Found device 1 with properties: 
+name: GeForce GTX 1080 Ti
+major: 6 minor: 1 memoryClockRate (GHz) 1.582
+pciBusID 0000:03:00.0
+Total memory: 10.92GiB
+Free memory: 10.76GiB
+2018-04-02 08:53:09.005954: W tensorflow/stream_executor/cuda/cuda_driver.cc:523] A non-primary context 0x56487d27b700 exists before initializing the StreamExecutor. We haven't verified StreamExecutor works with that.
+2018-04-02 08:53:09.006330: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:893] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2018-04-02 08:53:09.006812: I tensorflow/core/common_runtime/gpu/gpu_device.cc:955] Found device 2 with properties: 
+name: GeForce GTX 1080 Ti
+major: 6 minor: 1 memoryClockRate (GHz) 1.582
+pciBusID 0000:82:00.0
+Total memory: 10.92GiB
+Free memory: 194.50MiB
+2018-04-02 08:53:09.276519: W tensorflow/stream_executor/cuda/cuda_driver.cc:523] A non-primary context 0x56487d27fc10 exists before initializing the StreamExecutor. We haven't verified StreamExecutor works with that.
+2018-04-02 08:53:09.277047: I tensorflow/stream_executor/cuda/cuda_gpu_executor.cc:893] successful NUMA node read from SysFS had negative value (-1), but there must be at least one NUMA node, so returning NUMA node zero
+2018-04-02 08:53:09.277661: I tensorflow/core/common_runtime/gpu/gpu_device.cc:955] Found device 3 with properties: 
+name: GeForce GTX 1080 Ti
+major: 6 minor: 1 memoryClockRate (GHz) 1.582
+pciBusID 0000:83:00.0
+Total memory: 10.92GiB
+Free memory: 10.76GiB
+2018-04-02 08:53:09.278640: I tensorflow/core/common_runtime/gpu/gpu_device.cc:847] Peer access not supported between device ordinals 0 and 2
+2018-04-02 08:53:09.278669: I tensorflow/core/common_runtime/gpu/gpu_device.cc:847] Peer access not supported between device ordinals 0 and 3
+2018-04-02 08:53:09.278724: I tensorflow/core/common_runtime/gpu/gpu_device.cc:847] Peer access not supported between device ordinals 1 and 2
+2018-04-02 08:53:09.278742: I tensorflow/core/common_runtime/gpu/gpu_device.cc:847] Peer access not supported between device ordinals 1 and 3
+2018-04-02 08:53:09.278757: I tensorflow/core/common_runtime/gpu/gpu_device.cc:847] Peer access not supported between device ordinals 2 and 0
+2018-04-02 08:53:09.278773: I tensorflow/core/common_runtime/gpu/gpu_device.cc:847] Peer access not supported between device ordinals 2 and 1
+2018-04-02 08:53:09.279674: I tensorflow/core/common_runtime/gpu/gpu_device.cc:847] Peer access not supported between device ordinals 3 and 0
+2018-04-02 08:53:09.279700: I tensorflow/core/common_runtime/gpu/gpu_device.cc:847] Peer access not supported between device ordinals 3 and 1
+2018-04-02 08:53:09.279811: I tensorflow/core/common_runtime/gpu/gpu_device.cc:976] DMA: 0 1 2 3 
+2018-04-02 08:53:09.279827: I tensorflow/core/common_runtime/gpu/gpu_device.cc:986] 0:   Y Y N N 
+2018-04-02 08:53:09.279834: I tensorflow/core/common_runtime/gpu/gpu_device.cc:986] 1:   Y Y N N 
+2018-04-02 08:53:09.279841: I tensorflow/core/common_runtime/gpu/gpu_device.cc:986] 2:   N N Y Y 
+2018-04-02 08:53:09.279847: I tensorflow/core/common_runtime/gpu/gpu_device.cc:986] 3:   N N Y Y 
+2018-04-02 08:53:09.279859: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1045] Creating TensorFlow device (/gpu:0) -> (device: 0, name: GeForce GTX 1080 Ti, pci bus id: 0000:02:00.0)
+2018-04-02 08:53:09.279869: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1045] Creating TensorFlow device (/gpu:1) -> (device: 1, name: GeForce GTX 1080 Ti, pci bus id: 0000:03:00.0)
+2018-04-02 08:53:09.279876: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1045] Creating TensorFlow device (/gpu:2) -> (device: 2, name: GeForce GTX 1080 Ti, pci bus id: 0000:82:00.0)
+2018-04-02 08:53:09.279883: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1045] Creating TensorFlow device (/gpu:3) -> (device: 3, name: GeForce GTX 1080 Ti, pci bus id: 0000:83:00.0)
+2018-04-02 08:53:09.845380: E tensorflow/stream_executor/cuda/cuda_driver.cc:924] failed to allocate 194.50M (203948032 bytes) from device: CUDA_ERROR_OUT_OF_MEMORY
+____________________________________________
+blstm1_out (Dense)               (None, None, 256)     131328      blstm1[0][0]                     
+____________________________________________________________________________________________________
+blstm2 (Bidirectional)           (None, None, 512)     787968      blstm1_out[0][0]                 
+____________________________________________________________________________________________________
+blstm2_out (Dense)               (None, None, 5531)    2837403     blstm2[0][0]                     
+____________________________________________________________________________________________________
+the_labels (InputLayer)          (None, None)          0                                            
+____________________________________________________________________________________________________
+input_length (InputLayer)        (None, 1)             0                                            
+____________________________________________________________________________________________________
+label_length (InputLayer)        (None, 1)             0                                            
+____________________________________________________________________________________________________
+ctc (Lambda)                     (None, 1)             0           blstm2_out[0][0]                 
+                                                                   the_labels[0][0]                 
+                                                                   input_length[0][0]               
+                                                                   label_length[0][0]               
+====================================================================================================
+Total params: 10,486,715
+Trainable params: 10,486,699
+Non-trainable params: 16
+____________________________________________________________________________________________________
+16/16 [==============================] - 0s
+step:0,loss:1000,crrentLoss:0.217912316322
+save model:
+Traceback (most recent call last):
+  File "trainbatch.py", line 51, in <module>
+    basemodel.save(path)
+  File "/home/lhw/anaconda3/envs/python2/lib/python2.7/site-packages/keras/engine/topology.py", line 2553, in save
+    save_model(self, filepath, overwrite, include_optimizer)
+  File "/home/lhw/anaconda3/envs/python2/lib/python2.7/site-packages/keras/models.py", line 102, in save_model
+    with h5py.File(filepath, mode='w') as f:
+  File "/home/lhw/anaconda3/envs/python2/lib/python2.7/site-packages/h5py/_hl/files.py", line 269, in __init__
+    fid = make_fid(name, mode, userblock_size, fapl, swmr=swmr)
+  File "/home/lhw/anaconda3/envs/python2/lib/python2.7/site-packages/h5py/_hl/files.py", line 105, in make_fid
+    fid = h5f.create(name, h5f.ACC_TRUNC, fapl=fapl, fcpl=fcpl)
+  File "h5py/_objects.pyx", line 54, in h5py._objects.with_phil.wrapper
+  File "h5py/_objects.pyx", line 55, in h5py._objects.with_phil.wrapper
+  File "h5py/h5f.pyx", line 98, in h5py.h5f.create
+IOError: Unable to create file (unable to open file: name = 'save_model/model0.217912316322.h5', errno = 2, error message = 'No such file or directory', flags = 13, o_flags = 242)
+Traceback (most recent call last):
+  File "trainbatch.py", line 2, in <module>
+    from train import *
+  File "/home/lhw/OCR/chinese-ocr-master/train/keras-train/train.py", line 2, in <module>
+    import torch
+ImportError: No module named torch
