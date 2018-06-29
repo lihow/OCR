@@ -285,7 +285,8 @@ def upload():
         basepath = os.path.dirname(__file__)
         file_path = os.path.join(
             basepath, 'uploads', secure_filename(f.filename))
-        f.save(file_path)
+        #f.save(file_path)
+        img.save(file_path)
 
         # Make prediction
         cost_t, result = model_predict(img)
@@ -312,6 +313,6 @@ def index():
 
 if __name__ == '__main__':
     #app.run(debug=True, port=7000)
-    http_server = WSGIServer(('', 7000), app)
+    http_server = WSGIServer(('', 8080), app)
     http_server.serve_forever()
 

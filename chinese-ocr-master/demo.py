@@ -10,7 +10,7 @@ if __name__ =='__main__':
     im = Image.open(paths[0])
     img = np.array(im.convert('RGB'))
     t = time.time()
-    result,img,angle = model.model(img,model='pytorch')
+    result,img,angle = model.model(img,model='keras')
     print paths[0]
     print "It takes time:{}s".format(time.time()-t)
     print "---------------------------------------"
