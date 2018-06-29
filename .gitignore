@@ -35,3 +35,4 @@ text-detection-ctpn-master/output/ctpn_end2end/voc_2007_trainval/*
 text-detection-ctpn-master/logs/*
 text-detection-ctpn-master/data/*
 *.xml
+AdvancedEAST/saved_model/*
