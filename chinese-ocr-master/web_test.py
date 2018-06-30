@@ -24,6 +24,16 @@ from keras.applications.imagenet_utils import preprocess_input, decode_predictio
 from keras.models import load_model
 from keras.preprocessing import image
 
+#crnn
+import torch
+import torch.utils.data
+from torch.autograd import Variable
+import crnn.dataset as dataset
+import crnn.keys as keys1
+import crnn.models.crnn as crnn
+import crnn.util as util
+GPU = False
+
 #ctpn textdetector
 import tensorflow as tf
 import cv2
@@ -39,6 +49,7 @@ from ctpn.ctpn.detectors import TextDetector
 from ctpn.ctpn.other import draw_boxes
 from ctpn.ctpn.cfg import Config
 from ctpn.ctpn.other import resize_im
+
 
 app = Flask(__name__)
 
@@ -168,6 +179,52 @@ def predict(im):
 
     return out
 
+def crnnSource():
+    alphabet = keys1.alphabet
+    converter = util.strLabelConverter(alphabet)
+    if torch.cuda.is_available() and GPU:
+       model = crnn.CRNN(32, 1, len(alphabet)+1, 256, 1).cuda()
+    else:
+        model = crnn.CRNN(32, 1, len(alphabet)+1, 256, 1).cpu()
+    path = './crnn/samples/model_acc97.pth'
+    model.eval()
+    model.load_state_dict(torch.load(path))
+    return model,converter
+    
+model,converter = crnnSource()
+def crnnOcr(image):
+       """
+       crnn模型，ocr识别
+       @@model,
+       @@converter,
+       @@im
+       @@text_recs:text box
+
+       """
+       scale = image.size[1]*1.0 / 32
+       w = image.size[0] / scale
+       w = int(w)
+       #print "im size:{},{}".format(image.size,w)
+       transformer = dataset.resizeNormalize((w, 32))
+       if torch.cuda.is_available() and GPU:
+           image = transformer(image).cuda()
+       else:
+           image = transformer(image).cpu()
+
+       image = image.view(1, *image.size())
+       image = Variable(image)
+       model.eval()
+       preds = model(image)
+       _, preds = preds.max(2)
+       preds = preds.transpose(1, 0).contiguous().view(-1)
+       preds_size = Variable(torch.IntTensor([preds.size(0)]))
+       sim_pred = converter.decode(preds.data, preds_size.data, raw=False)
+       if len(sim_pred)>0:
+          if sim_pred[0]==u'-':
+             sim_pred=sim_pred[1:]
+
+       return sim_pred
+
 
 def sort_box(box):
     """
@@ -241,6 +298,8 @@ def crnnRec(im,text_recs,ocrMode='keras',adjust=False):
        image = Image.fromarray(partImg ).convert('L')
        if ocrMode=='keras':
             sim_pred = predict(image)
+       else:
+            sim_pred = crnnOcr(image)
 
        results[index].append(sim_pred)##识别文字
  
@@ -252,7 +311,7 @@ def model_predict(img):
     text_recs,tmp,img = text_detect(img)
     text_recs = sort_box(text_recs)
     #未提供pythroch版本 后续补充
-    result = crnnRec(img,text_recs,ocrMode='keras',adjust=False)
+    result = crnnRec(img,text_recs,ocrMode='pytorch',adjust=False)
     cost_t = time.time()-t
     return (cost_t, result)
 
